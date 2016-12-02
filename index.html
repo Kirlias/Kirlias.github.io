@@ -164,322 +164,328 @@
                 </div>
             </div>
         <div class="cpp">
-            <pre><code class="language-cpp">//Author: James Hagen 
-//Date: Oct. 13/16
-#include <iostream>
-#include <conio.h>
-#include <cstdio>
-#include <regex>
+            <pre><code class="language-cpp">
+    //Author: James Hagen 
+    /*About this project:
+    In this project out goal was to overload mathmatical operators
+    to work with fractions. What I mean by that is when we type in something
+    like 1/2 and 2/3 into the console it will list out the resulst of
+    adding, subtracting, multiplying and dividing these fractions.*/
+    //Date: Oct. 13/16
+    #include &#60;iostream&#62;
+    #include &#60;conio.h&#62;
+    #include &#60;cstdio&#62;
+    #include &#60;regex&#62;
 
 
-using namespace std;
+    using namespace std;
 
-string firstFraction;
-string secondFraction;
-regex fractionValidation("(-?[0-9]*)\\s([0-9]*)/([1-9][0-9]*)");
-string numbers[3];
-string numerator;
-string denominator;
-
-
-
-class FractionMath {
-	//properties
-private:
-	int numerator;
-	int denominator;
-	int highestCommonDeno;
-
-	//functions
-public:
-	//default contsructor
-	FractionMath() {
-		numerator = 0;
-		denominator = 0;
-	}
-	//constructor with args
-	FractionMath(int nume, int deno) {
-		this->numerator = nume;
-		this->denominator = deno;
-
-	}
-	//getters and setters
-	int getNumerator() {
-		return numerator;
-
-	}
-	int getDenominator() {
-		return denominator;
-
-	}
-	int setNumerator(int i) {
-		this->numerator = i;
-		return 0;
-	}
-	int setNDenominator(int i) {
-		this->denominator = i;
-		return 0;
-	}
-	//***********************************************************************
-	//~~~~~~~~~~~~~~~~~~~overloaded Addition operator~~~~~~~~~~~~~~~~~~~~~~~~
-	//***********************************************************************
-	FractionMath operator+ (FractionMath &rightObj) {
-		int totalNume;
-		int totalDeno;
-		if (this->denominator != rightObj.denominator) {
-			totalNume = ((this->numerator * rightObj.denominator) + (rightObj.numerator * this->denominator));
-			totalDeno = (this->denominator * rightObj.denominator);
-		}
-		else {
-			totalNume = (this->numerator + rightObj.numerator);
-			totalDeno = (this->denominator);
-		}
-		return FractionMath(totalNume, totalDeno);
-	}
-
-
-	//***********************************************************************
-	//~~~~~~~~~~~~~~~~~~overloaded Subtraction operator~~~~~~~~~~~~~~~~~~~~~~
-	//***********************************************************************
-	FractionMath operator- (FractionMath &rightObj) {
-		int totalNume;
-		int totalDeno;
-		if (this->denominator != rightObj.denominator) {
-			totalNume = ((this->numerator * rightObj.denominator) - (rightObj.numerator * this->denominator));
-			totalDeno = (this->denominator * rightObj.denominator);
-		}
-		else {
-			totalNume = (this->numerator - rightObj.numerator);
-			totalDeno = (this->denominator);
-		}
-		return FractionMath(totalNume, totalDeno);
-	}
-
-
-	//***********************************************************************
-	//~~~~~~~~~~~~~~~~overloaded Multiplication operator~~~~~~~~~~~~~~~~~~~~~
-	//***********************************************************************
-	FractionMath operator* (FractionMath &rightObj) {
-		
-		return FractionMath(this->numerator*rightObj.numerator,
-			this->denominator*rightObj.denominator);
-	}
-
-
-	//***********************************************************************
-	//~~~~~~~~~~~~~~~~~~~overloaded Division operator~~~~~~~~~~~~~~~~~~~~~~~~
-	//***********************************************************************
-	FractionMath operator/ (FractionMath &rightObj) {
-		if (rightObj.numerator == 0) {
-			return FractionMath(this->numerator,this->denominator);
-		}
-		return FractionMath(this->numerator*rightObj.denominator,
-			this->denominator*rightObj.numerator);
-	}
-	
-	/*FractionMath operator< (FractionMath &rightObj) {
-		int tempnumeOne;
-		int tempdenoOne;
-		int tempdenoTwo;
-		int tempnumeTwo;
-		if (this->denominator != rightObj.denominator) {
-
-			tempnumeOne = this->numerator * rightObj.denominator;
-			tempdenoOne = this->denominator * rightObj.denominator;
-			tempnumeTwo = rightObj.numerator * this->denominator;
-			tempdenoTwo = rightObj.denominator * this->denominator;
-		}
-	
+    string firstFraction;
+    string secondFraction;
+    regex fractionValidation("(-?[0-9]*)\\s([0-9]*)/([1-9][0-9]*)");
+    string numbers[3];
+    string numerator;
+    string denominator;
 
 
 
-	}*/
-	int findDenominator() {
-		
-		for (int i = this->denominator; i < this->denominator; i--) {
+    class FractionMath {
+        //properties
+    private:
+        int numerator;
+        int denominator;
+        int highestCommonDeno;
 
-			if (denominator%i == 0 && numerator%i == 0 && i) {
-				highestCommonDeno = i;
-			}
-		}
-		return 0;
-	}
+        //functions
+    public:
+        //default contsructor
+        FractionMath() {
+            numerator = 0;
+            denominator = 0;
+        }
+        //constructor with args
+        FractionMath(int nume, int deno) {
+            this->numerator = nume;
+            this->denominator = deno;
 
-};
+        }
+        //getters and setters
+        int getNumerator() {
+            return numerator;
 
-FractionMath fracOne;
-FractionMath fracTwo;
+        }
+        int getDenominator() {
+            return denominator;
 
-FractionMath add(FractionMath frac1, FractionMath frac2);
-FractionMath subtract(FractionMath frac1, FractionMath frac2);
-FractionMath multiply(FractionMath frac1, FractionMath frac2);
-FractionMath divide(FractionMath frac1, FractionMath frac2);
-bool validateDivide(FractionMath frac1);
-FractionMath reduce(FractionMath frac1);
-bool inputValidation(string input);
-
-int takeFirstInput();
-int takeSecondInput();
-int will;
-
-int main() {
-	
-	takeFirstInput();
-	takeSecondInput();
-
-	
-	FractionMath fracAdd = add(fracOne, fracTwo);
-	FractionMath fracSub = subtract(fracOne, fracTwo);
-	FractionMath fracMul = multiply(fracOne, fracTwo);
-	FractionMath fracDiv;
-	reduce(fracAdd);
-	reduce(fracSub);
-	reduce(fracMul);
-	
-	//*****************************
-	//~~~~~~~~~~~~Output~~~~~~~~~~~
-	//*****************************
-	cout << "if you add " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
-		fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracAdd.getNumerator()<< "/" <<
-		fracAdd.getDenominator() << endl;
-	cout << endl;
-	cout << "if you subtract " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
-		fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracSub.getNumerator() << "/" <<
-		fracSub.getDenominator() << endl;
-	cout << endl;
-	cout << "if you multiply " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
-		fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracMul.getNumerator() << "/" <<
-		fracMul.getDenominator() << endl;
-	cout << endl;
-
-	//validate that the numerator of the second fraction is not 0;
-	if (validateDivide(fracTwo)) {
-		
-		fracDiv = divide(fracOne, fracTwo);
-		reduce(fracDiv);
-		cout << "if you Divide " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
-			fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracDiv.getNumerator() << "/" <<
-			fracDiv.getDenominator() << endl;
-	}
-	else {
-		cout << "if you Divide " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
-			fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is not possible..." << endl;
-	}
-	_getch();
-	return 0;
-}
-
-//adds the fractions
-FractionMath add(FractionMath frac1, FractionMath frac2) {
-
-	return frac1 + frac2;
-}
-
-//subttracts the fractions
-FractionMath subtract(FractionMath frac1, FractionMath frac2) {
-
-	return frac1 - frac2;
+        }
+        int setNumerator(int i) {
+            this->numerator = i;
+            return 0;
+        }
+        int setNDenominator(int i) {
+            this->denominator = i;
+            return 0;
+        }
+        //***********************************************************************
+        //~~~~~~~~~~~~~~~~~~~overloaded Addition operator~~~~~~~~~~~~~~~~~~~~~~~~
+        //***********************************************************************
+        FractionMath operator+ (FractionMath &rightObj) {
+            int totalNume;
+            int totalDeno;
+            if (this->denominator != rightObj.denominator) {
+                totalNume = ((this->numerator * rightObj.denominator) + (rightObj.numerator * this->denominator));
+                totalDeno = (this->denominator * rightObj.denominator);
+            }
+            else {
+                totalNume = (this->numerator + rightObj.numerator);
+                totalDeno = (this->denominator);
+            }
+            return FractionMath(totalNume, totalDeno);
+        }
 
 
-}
-
-//multiplies the fractions
-FractionMath multiply(FractionMath frac1, FractionMath frac2) {
-
-	return frac1 * frac2;
-
-
-}
-
-//divides the fractions
-FractionMath divide(FractionMath frac1, FractionMath frac2) {
-
-		return frac1 / frac2;
-
-}
-
-//checks the numerator for 0
-bool validateDivide(FractionMath frac1) {
-	if (frac1.getNumerator() == 0) {
-		return false;
-	}
-	else {
-		return true;
-	}
+        //***********************************************************************
+        //~~~~~~~~~~~~~~~~~~overloaded Subtraction operator~~~~~~~~~~~~~~~~~~~~~~
+        //***********************************************************************
+        FractionMath operator- (FractionMath &rightObj) {
+            int totalNume;
+            int totalDeno;
+            if (this->denominator != rightObj.denominator) {
+                totalNume = ((this->numerator * rightObj.denominator) - (rightObj.numerator * this->denominator));
+                totalDeno = (this->denominator * rightObj.denominator);
+            }
+            else {
+                totalNume = (this->numerator - rightObj.numerator);
+                totalDeno = (this->denominator);
+            }
+            return FractionMath(totalNume, totalDeno);
+        }
 
 
-}
+        //***********************************************************************
+        //~~~~~~~~~~~~~~~~overloaded Multiplication operator~~~~~~~~~~~~~~~~~~~~~
+        //***********************************************************************
+        FractionMath operator* (FractionMath &rightObj) {
 
-//reduces the fration 
-FractionMath reduce(FractionMath frac1) {
-
-	frac1.findDenominator(); 
-	return frac1;
-}
-//checks to see if the input is valid
-bool inputValidation(string input) {
-
-	string expression = "[-]?[1-9]*\/[-]?[1-9][0-9]*";
-	regex ex(expression);
-	regex ex2("[-]?\\d+");
-
-	if (regex_match(input, ex)) {
-		return true;
-
-	}
-	else if (regex_match(input, ex2)) {
-
-		return true;
-	}
-	else if (input.empty()) {
-		return true;
-	}
-	else {
-		
-		return false;
-	}
-}
-//gets the first input
-int takeFirstInput() {
-
-	cout << "Enter your first real Fraction: " << endl;
-	getline(cin, firstFraction);
-	if (inputValidation(firstFraction)) {
-		string delimiter = "/";
-		numerator = firstFraction.substr(0, firstFraction.find(delimiter));
-		denominator = firstFraction.substr(2, firstFraction.find(delimiter));
-		fracOne.setNumerator(stoi(numerator));
-		fracOne.setNDenominator(stoi(denominator));
-	}
-	else {
-		cout << "please enter a valid input...." << endl;
-		main();
+            return FractionMath(this->numerator*rightObj.numerator,
+                this->denominator*rightObj.denominator);
+        }
 
 
-	}
-	return 0;
-}
+        //***********************************************************************
+        //~~~~~~~~~~~~~~~~~~~overloaded Division operator~~~~~~~~~~~~~~~~~~~~~~~~
+        //***********************************************************************
+        FractionMath operator/ (FractionMath &rightObj) {
+            if (rightObj.numerator == 0) {
+                return FractionMath(this->numerator,this->denominator);
+            }
+            return FractionMath(this->numerator*rightObj.denominator,
+                this->denominator*rightObj.numerator);
+        }
+
+        /*FractionMath operator< (FractionMath &rightObj) {
+            int tempnumeOne;
+            int tempdenoOne;
+            int tempdenoTwo;
+            int tempnumeTwo;
+            if (this->denominator != rightObj.denominator) {
+
+                tempnumeOne = this->numerator * rightObj.denominator;
+                tempdenoOne = this->denominator * rightObj.denominator;
+                tempnumeTwo = rightObj.numerator * this->denominator;
+                tempdenoTwo = rightObj.denominator * this->denominator;
+            }
 
 
-//gets the second input
-int takeSecondInput() {
 
-	cout << "Enter your Second real Fraction: " << endl;
-	getline(cin, secondFraction);
-	if (inputValidation(secondFraction)) {
-		string delimiter = "/";
-		numerator = secondFraction.substr(0, secondFraction.find(delimiter));
-		denominator = secondFraction.substr(2, secondFraction.find(delimiter));
 
-		fracTwo.setNumerator(stoi(numerator));  
-		fracTwo.setNDenominator(stoi(denominator));
-	}
-	else {
-		cout << "please enter a valid input...." << endl;
-		takeSecondInput();
-	}
+        }*/
+        int findDenominator() {
 
-	return 0;
+            for (int i = this->denominator; i < this->denominator; i--) {
+
+                if (denominator%i == 0 && numerator%i == 0 && i) {
+                    highestCommonDeno = i;
+                }
+            }
+            return 0;
+        }
+
+    };
+
+    FractionMath fracOne;
+    FractionMath fracTwo;
+
+    FractionMath add(FractionMath frac1, FractionMath frac2);
+    FractionMath subtract(FractionMath frac1, FractionMath frac2);
+    FractionMath multiply(FractionMath frac1, FractionMath frac2);
+    FractionMath divide(FractionMath frac1, FractionMath frac2);
+    bool validateDivide(FractionMath frac1);
+    FractionMath reduce(FractionMath frac1);
+    bool inputValidation(string input);
+
+    int takeFirstInput();
+    int takeSecondInput();
+    int will;
+
+    int main() {
+
+        takeFirstInput();
+        takeSecondInput();
+
+
+        FractionMath fracAdd = add(fracOne, fracTwo);
+        FractionMath fracSub = subtract(fracOne, fracTwo);
+        FractionMath fracMul = multiply(fracOne, fracTwo);
+        FractionMath fracDiv;
+        reduce(fracAdd);
+        reduce(fracSub);
+        reduce(fracMul);
+
+        //*****************************
+        //~~~~~~~~~~~~Output~~~~~~~~~~~
+        //*****************************
+        cout << "if you add " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
+            fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracAdd.getNumerator()<< "/" <<
+            fracAdd.getDenominator() << endl;
+        cout << endl;
+        cout << "if you subtract " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
+            fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracSub.getNumerator() << "/" <<
+            fracSub.getDenominator() << endl;
+        cout << endl;
+        cout << "if you multiply " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
+            fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracMul.getNumerator() << "/" <<
+            fracMul.getDenominator() << endl;
+        cout << endl;
+
+        //validate that the numerator of the second fraction is not 0;
+        if (validateDivide(fracTwo)) {
+
+            fracDiv = divide(fracOne, fracTwo);
+            reduce(fracDiv);
+            cout << "if you Divide " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
+                fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is " << fracDiv.getNumerator() << "/" <<
+                fracDiv.getDenominator() << endl;
+        }
+        else {
+            cout << "if you Divide " << fracOne.getNumerator() << "/" << fracOne.getDenominator() << " And " <<
+                fracTwo.getNumerator() << "/" << fracTwo.getDenominator() << " The result is not possible..." << endl;
+        }
+        _getch();
+        return 0;
+    }
+
+    //adds the fractions
+    FractionMath add(FractionMath frac1, FractionMath frac2) {
+
+        return frac1 + frac2;
+    }
+
+    //subttracts the fractions
+    FractionMath subtract(FractionMath frac1, FractionMath frac2) {
+
+        return frac1 - frac2;
+
+
+    }
+
+    //multiplies the fractions
+    FractionMath multiply(FractionMath frac1, FractionMath frac2) {
+
+        return frac1 * frac2;
+
+
+    }
+
+    //divides the fractions
+    FractionMath divide(FractionMath frac1, FractionMath frac2) {
+
+            return frac1 / frac2;
+
+    }
+
+    //checks the numerator for 0
+    bool validateDivide(FractionMath frac1) {
+        if (frac1.getNumerator() == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+
+    }
+
+    //reduces the fration 
+    FractionMath reduce(FractionMath frac1) {
+
+        frac1.findDenominator(); 
+        return frac1;
+    }
+    //checks to see if the input is valid
+    bool inputValidation(string input) {
+
+        string expression = "[-]?[1-9]*\/[-]?[1-9][0-9]*";
+        regex ex(expression);
+        regex ex2("[-]?\\d+");
+
+        if (regex_match(input, ex)) {
+            return true;
+
+        }
+        else if (regex_match(input, ex2)) {
+
+            return true;
+        }
+        else if (input.empty()) {
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
+    //gets the first input
+    int takeFirstInput() {
+
+        cout << "Enter your first real Fraction: " << endl;
+        getline(cin, firstFraction);
+        if (inputValidation(firstFraction)) {
+            string delimiter = "/";
+            numerator = firstFraction.substr(0, firstFraction.find(delimiter));
+            denominator = firstFraction.substr(2, firstFraction.find(delimiter));
+            fracOne.setNumerator(stoi(numerator));
+            fracOne.setNDenominator(stoi(denominator));
+        }
+        else {
+            cout << "please enter a valid input...." << endl;
+            main();
+
+
+        }
+        return 0;
+    }
+
+
+    //gets the second input
+    int takeSecondInput() {
+
+        cout << "Enter your Second real Fraction: " << endl;
+        getline(cin, secondFraction);
+        if (inputValidation(secondFraction)) {
+            string delimiter = "/";
+            numerator = secondFraction.substr(0, secondFraction.find(delimiter));
+            denominator = secondFraction.substr(2, secondFraction.find(delimiter));
+
+            fracTwo.setNumerator(stoi(numerator));  
+            fracTwo.setNDenominator(stoi(denominator));
+        }
+        else {
+            cout << "please enter a valid input...." << endl;
+            takeSecondInput();
+        }
+
+        return 0;
 }</code></pre></div>
     </section>
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
